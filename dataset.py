@@ -131,7 +131,7 @@ def nx_to_tg_data(graphs, features, edge_labels=None):
     for i in range(len(graphs)):
         feature = features[i]
         graph = graphs[i].copy()
-        graph.remove_edges_from(graph.selfloop_edges())
+        graph.remove_edges_from(nx.selfloop_edges(graph))
 
         # relabel graphs
         keys = list(graph.nodes)
