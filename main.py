@@ -6,6 +6,11 @@ from model import *
 from utils import *
 from dataset import *
 
+import networkx as nx
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
 if not os.path.isdir('results'):
     os.mkdir('results')
 # args
@@ -176,6 +181,30 @@ for task in ['link', 'link_pair']:
                         label = torch.cat((label_positive, label_negative)).to(device)
                         loss_test += loss_func(pred, label).cpu().data.numpy()
                         auc_test += roc_auc_score(label.flatten().cpu().numpy(), out_act(pred).flatten().data.cpu().numpy())
+
+                        # TODO:
+                        if epoch % 100 == 0:
+                            # Choose a threshold
+                            thresh = 0.8
+                            # for set in ['train', 'val', 'pred'] do:
+                            nodes_first = torch.index_select(out, 0, data.edge_index[0, :].long().to(device))
+                            nodes_second = torch.index_select(out, 0, data.edge_index[1, :].long().to(device))
+                            pred = torch.sum(nodes_first * nodes_second, dim=-1)
+                            # Select the edges such that pred > threshold
+                            edges_pred = []
+                            for idx in range(pred.shape[0]):
+                                if pred[idx] > thresh:
+                                    edges_pred.append(data.edge_index[:,idx].numpy())
+                            # Draw the graph
+                            f = plt.figure()
+                            G = nx.Graph()
+                            G.add_nodes_from(range(400))
+                            G.add_edges_from(edges_pred)
+                            pos = [(int(j//20),int(j%20)) for j in range(400)]
+                            nx.draw(G, pos=pos, with_labels=False, node_size=5, ax=f.add_subplot(111))
+                            os.makedirs('results/graph', exist_ok=True)
+                            f.savefig(f"results/graph/epoch_{epoch}.png")
+                            plt.close(f)
 
                     loss_train /= id+1
                     loss_val /= id+1

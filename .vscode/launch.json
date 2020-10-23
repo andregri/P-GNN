@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "/home/andrea/Downloads/P-GNN",
+            "args": [
+                "--model", "PGNN",
+                "--layer_num", "2",
+                "--dataset", "grid",
+                "--cpu",
+                /*"--repeat_num", "1",
+                "--epoch_num", "1"*/
+            ]
+        }
+    ]
+}
