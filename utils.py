@@ -67,7 +67,7 @@ def duplicate_edges(edges):
 # each node at least remain in the new graph
 def split_edges(edges, remove_ratio, connected=False):
     e = edges.shape[1]
-    edges = edges[:, np.random.permutation(e)]
+    edges = edges[:, np.random.permutation(e)]  # shuffle the edges
     if connected:
         unique, counts = np.unique(edges, return_counts=True)
         node_count = dict(zip(unique, counts))

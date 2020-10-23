@@ -131,7 +131,7 @@ def nx_to_tg_data(graphs, features, edge_labels=None):
     for i in range(len(graphs)):
         feature = features[i]
         graph = graphs[i].copy()
-        graph.remove_edges_from(graph.selfloop_edges())
+        graph.remove_edges_from(nx.selfloop_edges(graph))
 
         # relabel graphs
         keys = list(graph.nodes)
@@ -146,9 +146,9 @@ def nx_to_tg_data(graphs, features, edge_labels=None):
         x = torch.from_numpy(x).float()
 
         # get edges
-        edge_index = np.array(list(graph.edges))
-        edge_index = np.concatenate((edge_index, edge_index[:,::-1]), axis=0)
-        edge_index = torch.from_numpy(edge_index).long().permute(1,0)
+        edge_index = np.array(list(graph.edges))                               # add edges in one direction
+        edge_index = np.concatenate((edge_index, edge_index[:,::-1]), axis=0)  # add edges in the other direction
+        edge_index = torch.from_numpy(edge_index).long().permute(1,0)          # transpose
 
         data = Data(x=x, edge_index=edge_index)
         # get edge_labels

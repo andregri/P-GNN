@@ -3,6 +3,12 @@ This repository is the official PyTorch implementation of "Position-aware Graph 
 
 [Jiaxuan You](https://cs.stanford.edu/~jiaxuan/), [Rex Ying](https://cs.stanford.edu/people/rexy/), [Jure Leskovec](https://cs.stanford.edu/people/jure/index.html), [Position-aware Graph Neural Networks](http://proceedings.mlr.press/v97/you19b/you19b.pdf), ICML 2019 (long oral).
 
+## My installation
+
+    conda create -n pgnn
+    conda activate pgnn
+    sh ./install.sh
+
 ## Installation
 
 - Install PyTorch (tested on 1.0.0), please refer to the offical website for further details
