@@ -32,10 +32,11 @@ def get_tg_dataset(args, dataset_name, use_cache=True, remove_feature=False):
     if dataset_name in ['Cora', 'CiteSeer', 'PubMed']:
         dataset = tg.datasets.Planetoid(root='datasets/' + dataset_name, name=dataset_name)
     else:
-        try:
+        dataset = load_tg_dataset(dataset_name)
+        """try:
             dataset = load_tg_dataset(dataset_name)
         except:
-            raise NotImplementedError
+            raise NotImplementedError"""
 
     # precompute shortest path
     if not os.path.isdir('datasets'):
@@ -116,7 +117,8 @@ def get_tg_dataset(args, dataset_name, use_cache=True, remove_feature=False):
             open(f5_name, 'wb') as f5:
 
             if args.task=='link':
-                pickle.dump(dists_removed_list, f2)
+                aaaaaaaaa = 1
+                #pickle.dump(dists_removed_list, f2)
             else:
                 pickle.dump(dists_list, f1)
             pickle.dump(links_train_list, f3)
@@ -238,6 +240,16 @@ def load_graphs(dataset_str):
             graph = nx.convert_node_labels_to_integers(graph)
 
             feature = np.identity(graph.number_of_nodes())
+            graphs.append(graph)
+            features.append(feature)
+
+    elif dataset_str == 'roads':
+        graphs = []
+        features = []
+        for _ in range(1):
+            graph = nx.read_gpickle('/home/andrea/Downloads/graph/output/annotation/0/1-edges-label_G.gpickle')
+
+            feature = np.ones((graph.number_of_nodes(),1))
             graphs.append(graph)
             features.append(feature)
 

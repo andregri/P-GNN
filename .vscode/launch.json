@@ -14,7 +14,7 @@
             "args": [
                 "--model", "PGNN",
                 "--layer_num", "2",
-                "--dataset", "grid",
+                "--dataset", "roads",
                 "--cpu",
                 /*"--repeat_num", "1",
                 "--epoch_num", "1"*/

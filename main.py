@@ -34,10 +34,11 @@ device = torch.device('cuda:'+str(args.cuda) if args.gpu else 'cpu')
 
 
 for task in ['link', 'link_pair']:
+
     args.task = task
     if args.dataset=='All':
         if task == 'link':
-            datasets_name = ['grid','communities','ppi']
+            datasets_name = ['grid','communities','ppi', 'roads']
         else:
             datasets_name = ['communities', 'email', 'protein']
     else:
@@ -196,15 +197,32 @@ for task in ['link', 'link_pair']:
                                 if pred[idx] > thresh:
                                     edges_pred.append(data.edge_index[:,idx].numpy())
                             # Draw the graph
+                            # relabel graphs
+
+                            G = nx.read_gpickle('/home/andrea/Downloads/graph/output/annotation/0/1-edges-label_G.gpickle')
+
                             f = plt.figure()
-                            G = nx.Graph()
-                            G.add_nodes_from(range(400))
-                            G.add_edges_from(edges_pred)
-                            pos = [(int(j//20),int(j%20)) for j in range(400)]
+                            pos = nx.get_node_attributes(G, 'pos')
                             nx.draw(G, pos=pos, with_labels=False, node_size=5, ax=f.add_subplot(111))
                             os.makedirs('results/graph', exist_ok=True)
+                            f.savefig(f"results/graph/original.png")
+                            plt.close(f)
+
+                            keys = list(G.nodes)
+                            vals = range(G.number_of_nodes())
+                            mapping = dict(zip(keys, vals))
+                            nx.relabel_nodes(G, mapping, copy=False)
+                            H = nx.Graph()
+                            H.add_nodes_from(G.nodes())
+                            H.add_edges_from(edges_pred)
+
+                            f = plt.figure()
+                            pos = nx.get_node_attributes(G, 'pos')
+                            nx.draw(H, pos=pos, with_labels=False, node_size=5, ax=f.add_subplot(111))
                             f.savefig(f"results/graph/epoch_{epoch}.png")
                             plt.close(f)
+
+                            
 
                     loss_train /= id+1
                     loss_val /= id+1
