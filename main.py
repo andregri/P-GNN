@@ -195,7 +195,7 @@ for task in ['link', 'link_pair']:
                             edges_pred = []
                             for idx in range(pred.shape[0]):
                                 if pred[idx] > thresh:
-                                    edges_pred.append(data.edge_index[:,idx].numpy())
+                                    edges_pred.append(data.edge_index[:,idx].cpu().numpy())
                             # Draw the graph
                             # relabel graphs
 
