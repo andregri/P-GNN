@@ -247,7 +247,7 @@ def load_graphs(dataset_str):
         graphs = []
         features = []
         for _ in range(1):
-            graph = nx.read_gpickle('/home/andrea/Downloads/graph/output/annotation/0/1-edges-label_G.gpickle')
+            graph = nx.read_gpickle('data/houston/1-edges-label_G.gpickle')
 
             feature = np.ones((graph.number_of_nodes(),1))
             graphs.append(graph)

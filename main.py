@@ -199,11 +199,12 @@ for task in ['link', 'link_pair']:
                             # Draw the graph
                             # relabel graphs
 
-                            G = nx.read_gpickle('/home/andrea/Downloads/graph/output/annotation/0/1-edges-label_G.gpickle')
+                            G = nx.read_gpickle('data/houston/1-edges-label_G.gpickle')
 
                             f = plt.figure()
                             pos = nx.get_node_attributes(G, 'pos')
                             nx.draw(G, pos=pos, with_labels=False, node_size=5, ax=f.add_subplot(111))
+                            os.makedirs('results/', exist_ok=True)
                             os.makedirs('results/graph', exist_ok=True)
                             f.savefig(f"results/graph/original.png")
                             plt.close(f)
